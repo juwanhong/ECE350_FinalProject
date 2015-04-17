@@ -12,16 +12,37 @@ addi $1, $0, 0
 addi $2, $0, 200
 addi $3, $0, 1
 ;2p initial coordinates (400,200), direction: left
-addi $1, $0, 400
-addi $2, $0, 200
-addi $3, $0, 3
+addi $4, $0, 400
+addi $5, $0, 200
+addi $6, $0, 3
+;direction checking registers
+addi $20, $0, 0
+addi $21, $0, 1
+addi $22, $0, 2
+addi $23, $0, 3
 
 Player1:
-
+;check for current direction and update the position register
+bne $3, $20, 1 ; move up y++
+addi $2, $2, 1
+bne $3, $21, 1 ; move right x++
+addi $1, $1, 1
+bne $3, $22, 1 ; move down y--
+addi $2, $2, -1
+bne $3, $23, 1 ; move left x--
+addi $1, $1, -1
 
 
 Player2:
-
+;check for current direction and update the position register
+bne $6, $20, 1 ; move up y++
+addi $5, $5, 1
+bne $6, $21, 1 ; move right x++
+addi $4, $4, 1
+bne $6, $22, 1 ; move down y--
+addi $5, $5, -1
+bne $6, $23, 1 ; move left x--
+addi $4, $4, -1
 
 
 MapUpdate:
