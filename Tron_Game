@@ -1,0 +1,27 @@
+.text
+; Map Coordinates: Top Left = (0,0)
+; Player 1 Coordinates (x,y) = ($1,$2)
+; Player 2 Coordinates (x,y) = ($4,$5)
+; Player 1 Direction = $3. up = 0, right = 1, down = 2, left = 3
+; Player 2 Direction = $4.
+
+
+Initial:
+;1p initial coordinates (0,200), direction: right
+addi $1, $0, 0
+addi $2, $0, 200
+addi $3, $0, 1
+;2p initial coordinates (400,200), direction: left
+addi $1, $0, 400
+addi $2, $0, 200
+addi $3, $0, 3
+
+Player1:
+
+
+
+Player2:
+
+
+
+MapUpdate:
