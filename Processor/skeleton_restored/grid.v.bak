@@ -1,0 +1,42 @@
+module grid(Wall_x, Wall_y, isCollision);
+	parameter gridWidth = 8;
+	parameter gridHeight = 8;
+	input
+	output [gridWidth-1:0] Wall_x;
+	output [gridHeight-1:0] Wall_y;
+
+
+
+genvar i, j;
+generate
+for (i = 0; i < gridWidth; i = i + 1)begin: X
+wire [gridHeight-1:0] currX;
+
+for (j = 0; j < gridHeight; j = j + 1)begin: Y
+	wire [1:0] twall;
+	pixel pix(.in(), .control(),.out(), .isWall(twall));
+	assign X[i].Y[j].currx[j] = twall[[0];
+end
+assign Wall_x[i] = |currx;
+end
+
+for (i = 0; i < gridHeight; i = i + 1)begin: ctrl
+wire [gridWidth-1:0] currY;
+for (j = 0; j < gridWidth; j = j + 1)begin ctrl2
+end
+	assign currY[j] = X[j].Y[i].twall[1];
+end
+	assign Wall_y[i] = |currY[i];
+endgenerate
+endmodule
+
+
+module pixel(in, control, out, isWall);
+	input in;
+	input control;
+	output out;
+	output isWall;
+
+
+
+endmodule
