@@ -1,9 +1,11 @@
 module skeleton(	inclock, resetn, ps2_clock, ps2_data, debug_word, debug_addr, leds, 
 					lcd_data, lcd_rw, lcd_en, lcd_rs, lcd_on, lcd_blon, 	
-					seg1, seg2, seg3, seg4, seg5, seg6, seg7, seg8
-					,test1, test2, test3, test4, test5, test6, test7, test8,test9);
+					seg1, seg2, seg3, seg4, seg5, seg6, seg7, seg8,
+					but_left1,but_right1, but_left2, but_right2,
+					test1, test2, test3, test4, test5, test6, test7, test8,test9);
 
 	input 			inclock, resetn;
+	input 			but_left1,but_right1, but_left2, but_right2;
 	inout 			ps2_data, ps2_clock;
 	
 	output 			lcd_rw, lcd_en, lcd_rs, lcd_on, lcd_blon;
@@ -36,7 +38,9 @@ module skeleton(	inclock, resetn, ps2_clock, ps2_data, debug_word, debug_addr, l
 	assign clock = inclock;
 	
 	// your processor
-	processor myprocessor(clock, resetn, ps2_key_pressed, ps2_out, lcd_write_en, lcd_write_data, debug_word, debug_addr,test1, test2, test3, test4, test5, test6, test7, test8,test9);
+	processor myprocessor(clock, resetn, ps2_key_pressed, ps2_out, lcd_write_en, lcd_write_data, debug_word, debug_addr,
+							but_left1,but_right1, but_left2, but_right2
+							,test1, test2, test3, test4, test5, test6, test7, test8,test9);
 	
 	// keyboard controller
 	PS2_Interface myps2(clock, resetn, ps2_clock, ps2_data, ps2_key_data, ps2_key_pressed, ps2_out);
