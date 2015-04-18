@@ -1,50 +1,46 @@
-module Grid(enable, player, in_x, in_y, clockWall_x, Wall_y, isCollision, walls, clock, reset);
+module Grid(enable1,enable2, clock, reset
+,wall_p1_x, wall_p2_x, LOC_p1_x, LOC_p2_x,wall_p1_y, wall_p2_y, LOC_p1_y, LOC_p2_y
+,wall_p1_xi, wall_p2_xi, LOC_p1_xi, LOC_p2_xi,wall_p1_yi, wall_p2_yi, LOC_p1_yi, LOC_p2_yi);
 	parameter gridWidth = 8;
 	parameter gridHeight = 8;
-	input clock, enable, reset;
-	input player;
-	input [gridWidth-1:0] in_x;
-	input [gridHeight-1:0] in_y;
-	output [gridWidth-1:0] Wall_x;
-	output [gridHeight-1:0] Wall_y;
-	output [gridWidth*gridHeight-1:0] walls;
-
-assign walls = |isCrash;
-wire [gridWidth*gridHeight-1:0] isCrash; // 8*x+y'th position says crash occurred at that position
-genvar i, j;
-generate
-for (i = 0; i < gridWidth; i = i + 1)begin: X
-wire [gridHeight-1:0] currX;
-
-for (j = 0; j < gridHeight; j = j + 1)begin: Y
-	wire [1:0] twall;
-	pixel pix(.in(),.clock(clock), .enable(in_x[i]&in_y[j]&enable) ,.player(player),.crash(isCrash[8*i+j]), .isWall(twall));
-	assign currx[j] = twall;
-	assign isCrash[8*i+j] = twall;
-end
-assign Wall_x[i] = |currx;
-end
-
-for (i = 0; i < gridHeight; i = i + 1)begin: ctrl
-wire [gridWidth-1:0] currY;
-for (j = 0; j < gridWidth; j = j + 1)begin ctrl2
-end
-	assign currY[j] = X[j].Y[i].twall;
-end
-	assign Wall_y[i] = |currY[i];
-endgenerate
-endmodule
-
-
-module pixel(in, enable, control, inplayer, crash, isWall, reset, clock);
-	input in, inplayer, enable, reset, clock;
-	input control;
-	output crash, isWall;
+	input clock, enable1, enable2, reset;
+	input [gridWidth-1: 0] wall_p1_xi;
+	input [gridWidth-1: 0] wall_p2_xi;
+	input [gridWidth-1: 0] LOC_p1_xi;
+	input [gridWidth-1: 0] LOC_p2_xi;
+	input [gridHeight-1: 0] wall_p1_yi;
+	input [gridHeight-1: 0] wall_p2_yi;
+	input [gridHeight-1: 0] LOC_p1_yi;
+	input [gridHeight-1: 0] LOC_p2_yi;
 	
-	assign crash = inplayer&isWall;
-	wire currplay, currwall;
-	DFFx player(.d(inplayer), .q(currplay), .clk(clock), .en(enable),.clrn(reset));
-	DFFx wall(.d(), .q(isWall), .clk(~clock), .en(enable),.clrn(reset));//is wall
+	output [gridWidth-1: 0] wall_p1_x;
+	output [gridWidth-1: 0] wall_p2_x;
+	output [gridWidth-1: 0] LOC_p1_x;
+	output [gridWidth-1: 0] LOC_p2_x;
+	output [gridHeight-1: 0] wall_p1_y;
+	output [gridHeight-1: 0] wall_p2_y;
+	output [gridHeight-1: 0] LOC_p1_y;
+	output [gridHeight-1: 0] LOC_p2_y;
+
+
+genvar x,y;
+generate
+for (x = 0; x < gridWidth; x = x + 1)
+begin: X
+	DFFx df_x_p1_w(.d(wall_p1_xi[x]), .q(wall_p1_x[x]), .clk(clock), .en(enable1),.clrn(reset));
+	DFFx df_x_p2_w(.d(wall_p2_xi[x]), .q(wall_p2_x[x]), .clk(clock), .en(enable2),.clrn(reset));
+	DFFx df_x_p1_p(.d(LOC_p1_xi[x]), .q(LOC_p1_x[x]), .clk(clock), .en(enable1),.clrn(reset));
+	DFFx df_x_p2_p(.d(LOC_p2_xi[x]), .q(LOC_p2_x[x]), .clk(clock), .en(enable2),.clrn(reset));
+
+end
+for (y = 0; y < gridHeight; y = y + 1)
+begin: Y
+	DFFx df_y_p1_w(.d(wall_p1_yi[y]), .q(wall_p1_y[y]), .clk(clock), .en(enable1),.clrn(reset));
+	DFFx df_y_p2_w(.d(wall_p2_yi[y]), .q(wall_p2_y[y]), .clk(clock), .en(enable2),.clrn(reset));
+	DFFx df_y_p1_p(.d(LOC_p1_yi[y]), .q(LOC_p1_y[y]), .clk(clock), .en(enable1),.clrn(reset));
+	DFFx df_y_p2_p(.d(LOC_p2_yi[y]), .q(LOC_p2_y[y]), .clk(clock), .en(enable2),.clrn(reset));
+end
+endgenerate
 endmodule
 
 module DFFx(d, clrn, clk, q, en); 
