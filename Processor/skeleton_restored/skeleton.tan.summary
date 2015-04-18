@@ -5,9 +5,9 @@ Timing Analyzer Summary
 Type           : Worst-case tsu
 Slack          : N/A
 Required Time  : None
-Actual Time    : 6.568 ns
+Actual Time    : 6.964 ns
 From           : resetn
-To             : PS2_Interface:myps2|PS2_Controller:PS2|Altera_UP_PS2_Data_In:PS2_Data_In|received_data[0]
+To             : PS2_Interface:myps2|last_data_received[4]
 From Clock     : --
 To Clock       : inclock
 Failed Paths   : 0
@@ -15,9 +15,9 @@ Failed Paths   : 0
 Type           : Worst-case tco
 Slack          : N/A
 Required Time  : None
-Actual Time    : 348.930 ns
-From           : processor:myprocessor|ALU:data_ALU|multdiv:md|DFFx:pipe[16].DivBitNumLast[1].div_BOZ|q
-To             : test9[5]
+Actual Time    : 354.592 ns
+From           : processor:myprocessor|DFFx:Latches1[13].dx_instr|q
+To             : test9[10]
 From Clock     : inclock
 To Clock       : --
 Failed Paths   : 0
@@ -25,7 +25,7 @@ Failed Paths   : 0
 Type           : Worst-case tpd
 Slack          : N/A
 Required Time  : None
-Actual Time    : 4.932 ns
+Actual Time    : 4.631 ns
 From           : inclock
 To             : test9[30]
 From Clock     : --
@@ -35,7 +35,7 @@ Failed Paths   : 0
 Type           : Worst-case th
 Slack          : N/A
 Required Time  : None
-Actual Time    : -4.695 ns
+Actual Time    : -4.798 ns
 From           : ps2_data
 To             : PS2_Interface:myps2|PS2_Controller:PS2|ps2_data_reg
 From Clock     : --
@@ -45,9 +45,9 @@ Failed Paths   : 0
 Type           : Clock Setup: 'inclock'
 Slack          : N/A
 Required Time  : None
-Actual Time    : 1.48 MHz ( period = 675.932 ns )
-From           : processor:myprocessor|ALU:data_ALU|multdiv:md|DFFx:pipe[16].DivBitNumLast[1].div_BOZ|q
-To             : processor:myprocessor|regFile:registers|register32B:loop1[12].my_reg|DFFx:loop1[28].a_dff|q
+Actual Time    : 1.46 MHz ( period = 685.586 ns )
+From           : processor:myprocessor|DFFx:Latches1[13].dx_instr|q
+To             : processor:myprocessor|regFile:registers|register32B:loop1[19].my_reg|DFFx:loop1[25].a_dff|q
 From Clock     : inclock
 To Clock       : inclock
 Failed Paths   : 0

@@ -70,17 +70,25 @@ assign VGA_CLK_n = ~iVGA_CLK;
 //	.q ( bgr_data_raw)
 //	);	
 //	assign bgr_data_raw = {24{1'b0}};
-	
+
+
+colors_mem	ROM_colors (
+	.address_a ( ADDR_index ),
+	//.address_b ( address_b_sig ),
+	.clock ( iVGA_CLK ),
+	.q_a ( bgr_data_raw )//,
+	//.q_b ( q_b_sig )
+	);
 //////
 //////latch valid data at falling edge;
 always@(posedge VGA_CLK_n) bgr_data <= bgr_data_raw;
-//assign b_data = bgr_data[23:16];
-//assign g_data = bgr_data[15:8];
-//assign r_data = bgr_data[7:0];
+assign b_data = bgr_data[23:16];
+assign g_data = bgr_data[15:8];
+assign r_data = bgr_data[7:0];
 
-//reg a, b;
-//always@(posedge VGA_CLK_n) a<=b+1;
-//register reg_counter(VGA_CLK_n, 0,0,a,b);
+reg a, b;
+always@(posedge VGA_CLK_n) a<=b+1;
+register reg_counter(VGA_CLK_n, 0,0,a,b);
 
 
 
@@ -162,6 +170,19 @@ module twomuxthirtytwo(x0,x1,s,f); //twomuxthirtytwo works
 	endgenerate
 endmodule
 
+module pixel_index (
+	address,
+	data,
+	clock,
+	q);
+input	[7:0]  address;
+input [64*64:0] data;
+input	  clock;
+output	[2:0]  q;
+//player 1: wall = 000, player = 001
+//player 2: wall = 010, player = 011
+//edges: rough = 100, light = 101
+endmodule
 
 
 

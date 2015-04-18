@@ -70,7 +70,16 @@ assign VGA_CLK_n = ~iVGA_CLK;
 //	.q ( bgr_data_raw)
 //	);	
 //	assign bgr_data_raw = {24{1'b0}};
-	
+
+
+
+colors_mem	ROM_colors (
+	.address_a ( ADDR_index ),
+	//.address_b ( address_b_sig ),
+	.clock ( iVGA_CLK ),
+	.q_a ( bgr_data_raw )//,
+	//.q_b ( q_b_sig )
+	);
 //////
 //////latch valid data at falling edge;
 always@(posedge VGA_CLK_n) bgr_data <= bgr_data_raw;
@@ -81,6 +90,8 @@ always@(posedge VGA_CLK_n) bgr_data <= bgr_data_raw;
 //reg a, b;
 //always@(posedge VGA_CLK_n) a<=b+1;
 //register reg_counter(VGA_CLK_n, 0,0,a,b);
+
+
 
 always@(posedge VGA_CLK_n)
 begin
