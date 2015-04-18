@@ -43,30 +43,3 @@ end
 endgenerate
 endmodule
 
-module DFFx(d, clrn, clk, q, en); 
-	input d, clrn, clk, en;
-	output q; 
-	reg q;
-	
-always @(posedge clk or posedge clrn) 
-	begin 
-		if(clrn) 
-			begin q = 1'b0;
-			end 
-		else if (en) 
-			begin q = d;	
-			end
-	end
-endmodule
-
-
-module pixel(in, enable, control, inplayer, crash, isWall, reset, clock);
-	input in, inplayer, enable, reset, clock;
-	input control;
-	output crash, isWall;
-	
-	assign crash = inplayer&isWall;
-	wire currplay, currwall;
-	DFFx player(.d(inplayer), .q(currplay), .clk(clock), .en(enable),.clrn(reset));
-	DFFx wall(.d(), .q(isWall), .clk(~clock), .en(enable),.clrn(reset));//is wall
-endmodule

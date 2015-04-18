@@ -37,13 +37,7 @@ video_sync_generator LTM_ins (.vga_clk(iVGA_CLK),
                               .blank_n(cBLANK_n),
                               .HS(cHS),
                               .VS(cVS));
-genvar i;
-generate
-	for (i = 0; i < 32; i = i + 1)begin: setBox
-		
 
-	end
-endgenerate
 ////
 ////Addresss generator
 always@(posedge iVGA_CLK,negedge iRST_n)

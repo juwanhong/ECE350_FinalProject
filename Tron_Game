@@ -5,6 +5,7 @@
 ; Player 1 Direction = $3. up = 0, right = 1, down = 2, left = 3
 ; Player 2 Direction = $4.
 
+.Main: 
 
 Initial:
 ;1p initial coordinates (0,200), direction: right
@@ -43,6 +44,3 @@ bne $6, $22, 1 ; move down y--
 addi $5, $5, -1
 bne $6, $23, 1 ; move left x--
 addi $4, $4, -1
-
-
-MapUpdate:
