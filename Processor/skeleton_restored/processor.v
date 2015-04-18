@@ -1,8 +1,10 @@
-module processor(clock, reset, ps2_key_pressed, ps2_out, lcd_write, lcd_data, debug_data, debug_addr
-,test1, test2, test3, test4, test5, test6, test7, test8,test9);
+module processor(clock, reset, ps2_key_pressed, ps2_out, lcd_write, lcd_data, debug_data, debug_addr,
+					but_left1,but_right1, but_left2, but_right2
+					,test1, test2, test3, test4, test5, test6, test7, test8,test9);
 	parameter md_stages = 16; //add one
 	input 			clock, reset, ps2_key_pressed;
 	input 	[7:0]	ps2_out;
+	input 			but_left1,but_right1, but_left2, but_right2;
 	output 			lcd_write;
 	output 	[31:0] 	lcd_data;
 	
@@ -90,9 +92,31 @@ module processor(clock, reset, ps2_key_pressed, ps2_out, lcd_write, lcd_data, de
 	TRI STATUS_Write1(.in(instr_X[0]),.out(ex_Reg), .oe(signals_X[26])); // write from setX
 	DFFx status(.d(ex_Reg), .q(statOut), .clk(~clock),.en(write_Status),.clrn(rs));//unsure about clocking this register
 	// changed clocking to ~clock
+	
 
 
+	wire [1:0] p1_buff;
+	wire [31:0] p1_cont;
+	assign p1_buff[0] = but_left1;
+	assign p1_buff[1] = but_right1;
+	assign p1_button = p1_cont[0]|p1_cont[1];
+	register32B PlayerOne_buff(.wrE((but_left1|but_right1)&~(p2_button))
+								,.din(p1_buff)
+								,.rs(rs)//|nop[0])
+								,.dout(p1_cont)
+								,.clock(clock));//change reset to "reset"
+	wire [1:0] p2_buff;
+	wire [31:0] p2_cont;
+	wire p2_button;
+	assign p2_buff[0] = but_left2;
+	assign p2_buff[1] = but_right2;	
+	register32B PlayerTwo_buff(.wrE((but_left2|but_right2)&~(p1_button))
+								,.din(p2_buff)
+								,.rs(rs)//|nop[0])
+								,.dout(p2_cont)
+								,.clock(clock));//change reset to "reset"
 
+	assign p2_button = p2_cont[0]|p2_cont[1];
 	register32B program_counter(.wrE(op[4])
 								,.din(next_PC)
 								,.rs(rs)//|nop[0])
@@ -384,6 +408,7 @@ endgenerate
 	); 
 	
 endmodule
+
 
 module fiveBitEquals(A, B, eq);
 	input [4:0] A;

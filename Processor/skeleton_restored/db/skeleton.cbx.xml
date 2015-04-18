@@ -1,24 +1,19 @@
 <?xml version="1.0" ?>
 <LOG_ROOT>
 	<PROJECT NAME="skeleton">
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux12" CBX_FILE_NAME="mux_t4d.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux3" CBX_FILE_NAME="mux_t4d.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux0" CBX_FILE_NAME="mux_t4d.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux13" CBX_FILE_NAME="mux_t4d.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux4" CBX_FILE_NAME="mux_t4d.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux8" CBX_FILE_NAME="mux_t4d.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|ALU:data_ALU|multdiv:md|DFFx:pipe[5].multBitNum[30].mul_opB_1|altshift_taps:q_rtl_4" CBX_FILE_NAME="shift_taps_p1m.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|ALU:data_ALU|multdiv:md|DFFx:pipe[4].multBitNum[30].mul_opB_1|altshift_taps:q_rtl_6" CBX_FILE_NAME="shift_taps_q1m.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|ALU:data_ALU|multdiv:md|DFFx:pipe[9].multBitNum[30].mul_opB_1|altshift_taps:q_rtl_5" CBX_FILE_NAME="shift_taps_e0m.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|imem:myimem|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_7h81.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|PS2_Interface:myps2|PS2_Controller:PS2|Altera_UP_PS2_Command_Out:PS2_Command_Out|lpm_mux:Mux0" CBX_FILE_NAME="mux_joc.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux1" CBX_FILE_NAME="mux_t4d.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux10" CBX_FILE_NAME="mux_joc.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux14" CBX_FILE_NAME="mux_t4d.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux5" CBX_FILE_NAME="mux_t4d.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux9" CBX_FILE_NAME="mux_t4d.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux11" CBX_FILE_NAME="mux_t4d.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux15" CBX_FILE_NAME="mux_t4d.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux2" CBX_FILE_NAME="mux_joc.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux6" CBX_FILE_NAME="mux_t4d.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|ALU:data_ALU|multdiv:md|DFFx:pipe[11].DivBitNum[0].div_qtn|altshift_taps:q_rtl_0" CBX_FILE_NAME="shift_taps_c0m.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|ALU:data_ALU|multdiv:md|DFFx:pipe[2].multBitNum[30].mul_opB_1|altshift_taps:q_rtl_10" CBX_FILE_NAME="shift_taps_s1m.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|DFFx:mdPipe[0].instrStore[24].P_contr|altshift_taps:q_rtl_7" CBX_FILE_NAME="shift_taps_khm.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|ALU:data_ALU|multdiv:md|DFFx:pipe[10].multBitNum[30].mul_opB_1|altshift_taps:q_rtl_3" CBX_FILE_NAME="shift_taps_d0m.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|ALU:data_ALU|multdiv:md|DFFx:pipe[1].mul_mulNeg|altshift_taps:q_rtl_11" CBX_FILE_NAME="shift_taps_t1m.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|ALU:data_ALU|multdiv:md|DFFx:pipe[3].multBitNum[30].mul_opB_1|altshift_taps:q_rtl_9" CBX_FILE_NAME="shift_taps_r1m.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|ALU:data_ALU|multdiv:md|DFFx:pipe[6].multBitNum[30].mul_opB_1|altshift_taps:q_rtl_2" CBX_FILE_NAME="shift_taps_o1m.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|ALU:data_ALU|multdiv:md|DFFx:pipe[7].multBitNum[30].mul_opB_1|altshift_taps:q_rtl_1" CBX_FILE_NAME="shift_taps_n1m.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|ALU:data_ALU|multdiv:md|DFFx:pipe[8].multBitNum[30].mul_opB_1|altshift_taps:q_rtl_8" CBX_FILE_NAME="shift_taps_f0m.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|dmem:mydmem|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_vqc1.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux7" CBX_FILE_NAME="mux_t4d.tdf"/>
 	</PROJECT>
 </LOG_ROOT>

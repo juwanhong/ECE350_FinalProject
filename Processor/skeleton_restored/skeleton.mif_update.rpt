@@ -1,5 +1,5 @@
 MIF/HEX Update report for skeleton
-Wed Apr 15 20:24:01 2015
+Sat Apr 18 10:20:02 2015
 Quartus II Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Web Edition
 
 
@@ -32,25 +32,22 @@ applicable agreement for further details.
 
 
 
-+---------------------------------------------------------------+
-; MIF/HEX Update Summary                                        ;
-+-----------------------+---------------------------------------+
-; MIF/HEX Update Status ; Successful - Wed Apr 15 20:24:01 2015 ;
-; Revision Name         ; skeleton                              ;
-; Top-level Entity Name ; skeleton                              ;
-; Family                ; Cyclone II                            ;
-; Device                ; EP2C35F672C6                          ;
-+-----------------------+---------------------------------------+
++-----------------------------------------------------------+
+; MIF/HEX Update Summary                                    ;
++-----------------------+-----------------------------------+
+; MIF/HEX Update Status ; Failed - Sat Apr 18 10:20:02 2015 ;
+; Revision Name         ; skeleton                          ;
+; Top-level Entity Name ; skeleton                          ;
+; Family                ; Cyclone II                        ;
+; Device                ; EP2C35F672C6                      ;
++-----------------------+-----------------------------------+
 
 
-+-------------------------------------------------------------------+
-; MIF/HEX Update Processed Files                                    ;
-+-------------------------------------------------------------------+
-; File Name                                                         ;
-+-------------------------------------------------------------------+
-; C:/Users/Diego/Desktop/processorTiming/skeleton_restored/dmem.mif ;
-; C:/Users/Diego/Desktop/processorTiming/skeleton_restored/imem.mif ;
-+-------------------------------------------------------------------+
++--------------------------------+
+; MIF/HEX Update Processed Files ;
++--------------------------------+
+; File Name                      ;
++--------------------------------+
 
 
 +-------------------------+
@@ -59,19 +56,13 @@ applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus II MIF/HEX Update
     Info: Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Web Edition
-    Info: Processing started: Wed Apr 15 20:23:59 2015
+    Info: Processing started: Sat Apr 18 10:20:01 2015
 Info: Command: quartus_cdb skeleton -c skeleton --update_mif
-Warning: 4070 out of 4096 addresses are uninitialized. The Quartus II software will initialize them to "0". There are 1 warnings found, and 1 warnings are reported.
-    Warning: Addresses ranging from 26 to 4095 are not initialized
-Warning: 4071 out of 4096 addresses are uninitialized. The Quartus II software will initialize them to "0". There are 1 warnings found, and 1 warnings are reported.
-    Warning: Addresses ranging from 25 to 4095 are not initialized
-Info: Processed the following Memory Initialization File(s)
-    Info: Processed Memory Initialization File C:/Users/Diego/Desktop/processorTiming/skeleton_restored/dmem.mif
-    Info: Processed Memory Initialization File C:/Users/Diego/Desktop/processorTiming/skeleton_restored/imem.mif
-Info: Quartus II MIF/HEX Update was successful. 0 errors, 4 warnings
-    Info: Peak virtual memory: 228 megabytes
-    Info: Processing ended: Wed Apr 15 20:24:01 2015
-    Info: Elapsed time: 00:00:02
-    Info: Total CPU time (on all processors): 00:00:04
+Error: Found no Memory Initialization Files to process
+Error: Quartus II MIF/HEX Update was unsuccessful. 1 error, 0 warnings
+    Error: Peak virtual memory: 196 megabytes
+    Error: Processing ended: Sat Apr 18 10:20:02 2015
+    Error: Elapsed time: 00:00:01
+    Error: Total CPU time (on all processors): 00:00:01
 
 
