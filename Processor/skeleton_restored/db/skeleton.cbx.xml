@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="skeleton">
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux12" CBX_FILE_NAME="mux_t4d.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux3" CBX_FILE_NAME="mux_t4d.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux0" CBX_FILE_NAME="mux_t4d.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux13" CBX_FILE_NAME="mux_t4d.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux4" CBX_FILE_NAME="mux_t4d.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux8" CBX_FILE_NAME="mux_t4d.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|imem:myimem|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_7h81.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|PS2_Interface:myps2|PS2_Controller:PS2|Altera_UP_PS2_Command_Out:PS2_Command_Out|lpm_mux:Mux0" CBX_FILE_NAME="mux_joc.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux1" CBX_FILE_NAME="mux_t4d.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux10" CBX_FILE_NAME="mux_joc.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux14" CBX_FILE_NAME="mux_t4d.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux5" CBX_FILE_NAME="mux_t4d.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux9" CBX_FILE_NAME="mux_t4d.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux11" CBX_FILE_NAME="mux_t4d.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux15" CBX_FILE_NAME="mux_t4d.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux2" CBX_FILE_NAME="mux_joc.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux6" CBX_FILE_NAME="mux_t4d.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|dmem:mydmem|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_vqc1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|lcd:mylcd|lpm_mux:Mux7" CBX_FILE_NAME="mux_t4d.tdf"/>
+	</PROJECT>
+</LOG_ROOT>
