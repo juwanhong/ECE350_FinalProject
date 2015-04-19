@@ -1,0 +1,93 @@
+.text
+; Map Coordinates: Top Left = (0,0)
+; Player 1 Coordinates (x,y) = ($1,$2), $3 = [x-direction], $4 = [y-direction] = e.g [0]'[1]'
+; Player 2 Coordinates (x,y) = ($11,$12), $13 = [x-direction], $14 = [y-direction] = e.g [0]'[1]'
+
+.Main: j Initial
+Initial:
+;1p initial coordinates (0,200), direction: right
+addi $1, $0, 0
+addi $2, $0, 200
+addi $3, $0, 1
+;2p initial coordinates (400,200), direction: left
+addi $4, $0, 400
+addi $5, $0, 200
+addi $6, $0, 3
+;direction checking registers
+addi $20, $0, 0
+addi $21, $0, 1
+addi $22, $0, 2
+addi $23, $0, 3
+
+Execution: Player1:
+add $1, $1, $3
+add $2, $2, $4
+mov
+bex keyb1
+j Player2
+keyb1: jal Interrupt
+j Player2
+
+Player2:
+add $11, $11, $13
+add $12, $12, $14
+mov
+bex keyb2
+j Player1 ; turn is over
+keyb2: jal Interrupt
+j Player1
+
+Interrupt:
+add $30, $K, $0 ; put the emergency code in $30
+addi $29, $30, -3
+bne $29, $0, cont1 ; means there wasn't victory
+lw $r20, vict($r0)
+;;; something to output the words
+j endgame
+
+cont1: addi $29, $30, -2
+bne $29, $0, cont2 ; means the motos didn't crash into each other
+lw $r20, ($r0)defeat
+;;; something to output the words
+j endgame
+
+
+cont2: addi $29, $30, -1
+bne $29, $0, cont3 ; means player 1 didn't press a button
+add $28, $K2, $0 ; opcode 2: which button
+bne $28, $r0, right1
+left1: add $5, $4, $0
+add $4, 0, $3
+sub $3, $0, $5
+j cont4
+
+right1: add $5, $4, $0
+sub $4, 0, $3
+add $3, 0, $5
+j cont4
+
+cont3: addi $29, $30, $r0
+bne $29, $0, cont4 ; means player 2 didn't press a button
+add $28, $K2, $0 ; opcode 2: which button
+bne $28, $0, right2
+left2: add $15, $14, $0
+add $14, 0, $13
+sub $13, $0, $15
+j cont4
+
+right2: add $15, $14, $0
+sub $14, 0, $13
+add $13, 0, $15
+j cont4
+
+cont4: 
+setx 0
+jr $r31
+
+endgame: ;;something to output "continue?"
+if user doesn't press anything
+j endgame
+if user presses no
+halt
+if user presses yes
+j initial
