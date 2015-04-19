@@ -1,0 +1,3 @@
+Info (10281): Verilog HDL Declaration information at auxiliary.v(535): object "I" differs only in case from object "i" in the same scope
+Info (10281): Verilog HDL Declaration information at Grid.v(58): object "x" differs only in case from object "X" in the same scope
+Info (10281): Verilog HDL Declaration information at Grid.v(58): object "y" differs only in case from object "Y" in the same scope
