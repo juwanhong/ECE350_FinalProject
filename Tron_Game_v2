@@ -1,56 +1,93 @@
-.text
 ; Map Coordinates: Top Left = (0,0)
 ; Player 1 Coordinates (x,y) = ($1,$2), $3 = [x-direction], $4 = [y-direction] = e.g [0]'[1]'
 ; Player 2 Coordinates (x,y) = ($11,$12), $13 = [x-direction], $14 = [y-direction] = e.g [0]'[1]'
-
-.Main: j Initial
-Initial:
 ;1p initial coordinates (0,200), direction: right
-addi $1, $0, 0
-addi $2, $0, 200
-addi $3, $0, 1
 ;2p initial coordinates (400,200), direction: left
-addi $4, $0, 400
-addi $5, $0, 200
-addi $6, $0, 3
-;direction checking registers
-addi $20, $0, 0
-addi $21, $0, 1
-addi $22, $0, 2
-addi $23, $0, 3
-
-Execution: Player1:
-add $1, $1, $3
-add $2, $2, $4
-mov
+.text
+main: add $r0, $r0, $r0
+Initial: addi $r1, $r0, 1
+addi $r2, $r0, 7
+addi $r3, $r0, 1
+addi $r4, $r0, 0
+addi $r11, $r0, 15
+addi $r12, $r0, 8
+addi $r13, $r0, -1
+addi $r14, $r0, 0
+Execution: j Player1
+Player1: add $r1, $r1, $r3
+add $r2, $r2, $r4
+add $r0, $r0, $r0 ;mov 1
 bex keyb1
 j Player2
 keyb1: jal Interrupt
 j Player2
-
-Player2:
-add $11, $11, $13
-add $12, $12, $14
-mov
+Player2:add $r11, $r11, $r13
+add $r12, $r12, $r14
+add $r0, $r0, $r0 ; mov
 bex keyb2
 j Player1 ; turn is over
 keyb2: jal Interrupt
 j Player1
 
-Interrupt:
-add $30, $K, $0 ; put the emergency code in $30
-addi $29, $30, -3
-bne $29, $0, cont1 ; means there wasn't victory
+Interrupt:add $r20, $r31, $r0
+addi $r21, $r0, 16
+blt $r31, $r21, spec
+j endgame ; CRASH 
+spec: addi $r21, $r0, 8
+blt $r31, $r21, RoLs
+addi $r21, $r0, 10
+blt $r31, $r21, play1Left ; TURN LEFT
+play2Left:add $r15, $r14, $r0
+add $r14, $r0, $r13
+sub $r13, $r0, $r15
+j continue
+play1Left:add $r5, $r4, $r0
+add $r4, $r0, $r3
+sub $r3, $r0, $r5
+j continue
+continue:
+setx 0
+jr $r20
+
+RoLs: addi $r21, $r0, 4
+blt $r31, $r21, Right
+addi $r21, $r0, 6
+blt $r31, $r21, play1Lost
+j play2lost
+play2Lost: j endgame
+play1Lost: j endgame 
+
+
+Right: addi $r21, $r0, 2
+blt $r31, $r21, play1Right
+play2Right: add $15, $14, $0
+sub $14, 0, $13
+add $13, 0, $15
+j continue
+play1Right:add $r5, $r4, $r0
+sub $r4, $r0, $r3
+add $r3, $r0, $r5
+j continue
+
+endgame: halt
+
+
+///GARBAGE
+
+addi $r22, $r0, 8
+addi $r23, $r0, 4
+add $r0, $r31, $r31 ; lx
+addi $29, $31, -3
+bne $r29, $r0, cont1 ; means there wasn't victory
 lw $r20, vict($r0)
 ;;; something to output the words
 j endgame
 
-cont1: addi $29, $30, -2
-bne $29, $0, cont2 ; means the motos didn't crash into each other
+cont1: addi $r29, $r30, -2
+bne $r29, $r0, cont2 ; means the motos didn't crash into each other
 lw $r20, ($r0)defeat
 ;;; something to output the words
 j endgame
-
 
 cont2: addi $29, $30, -1
 bne $29, $0, cont3 ; means player 1 didn't press a button
@@ -91,3 +128,4 @@ if user presses no
 halt
 if user presses yes
 j initial
+garbage: 

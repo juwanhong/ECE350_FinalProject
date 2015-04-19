@@ -1,0 +1,68 @@
+.text
+main: add $r0, $r0, $r0
+Initial: addi $r1, $r0, 1
+addi $r2, $r0, 7
+addi $r3, $r0, 1
+addi $r4, $r0, 0
+addi $r11, $r0, 15
+addi $r12, $r0, 8
+addi $r13, $r0, -1
+addi $r14, $r0, 0
+Execution: j Player1
+Player1: add $r1, $r1, $r3
+add $r2, $r2, $r4
+add $r0, $r0, $r0 ;mov 1
+bex keyb1
+j Player2
+keyb1: jal Interrupt
+j Player2
+Player2:add $r11, $r11, $r13
+add $r12, $r12, $r14
+add $r0, $r0, $r0 ; mov
+bex keyb2
+j Player1 ; turn is over
+keyb2: jal Interrupt
+j Player1
+Interrupt: add $r20, $r31, $r0
+addi $r21, $r0, 16
+blt $r31, $r21, spec
+j endgame
+spec: addi $r21, $r0, 8
+blt $r31, $r21, RoLs
+addi $r21, $r0, 10
+blt $r31, $r21, play1Left
+play2Left:add $r15, $r14, $r0
+add $r14, $r0, $r13
+sub $r13, $r0, $r15
+j continue
+play1Left:add $r5, $r4, $r0
+add $r4, $r0, $r3
+sub $r3, $r0, $r5
+j continue
+continue:
+setx 0
+jr $r20
+RoLs: addi $r21, $r0, 4
+blt $r31, $r21, Right
+addi $r21, $r0, 6
+blt $r31, $r21, play1Lost
+j play2lost
+play2Lost: j endgame
+play1Lost: j endgame 
+Right: addi $r21, $r0, 2
+blt $r31, $r21, play1Right
+play2Right: add $15, $14, $0
+sub $14, 0, $13
+add $13, 0, $15
+j continue
+play1Right:add $r5, $r4, $r0
+sub $r4, $r0, $r3
+add $r3, $r0, $r5
+j continue
+endgame: halt
+.data
+wow: .word 0x0000B504
+mystring: .string ASDASDASDASDASDASD
+var: .char Z
+label: .char A
+heapsize: .word 0x00000000
