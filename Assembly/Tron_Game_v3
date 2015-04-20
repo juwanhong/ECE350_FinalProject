@@ -1,12 +1,12 @@
 .text
 main: add $r0, $r0, $r0
 Initial: addi $r1, $r0, 1
-addi $r2, $r0, 7
+addi $r2, $r0, 2
 addi $r3, $r0, 1
 addi $r4, $r0, 0
-addi $r11, $r0, 15
-addi $r12, $r0, 8
-addi $r13, $r0, -1
+addi $r11, $r0, 1
+addi $r12, $r0, 5
+addi $r13, $r0, 1
 addi $r14, $r0, 0
 Execution: j Player1
 Player1: add $r1, $r1, $r3
