@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="skeleton">
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|VGA_Audio_PLL:p1|altpll:altpll_component" CBX_FILE_NAME="altpll_55j2.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|DFFx:mdPipe[0].instrStore[20].P_contr|altshift_taps:q_rtl_0" CBX_FILE_NAME="shift_taps_28m.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|dmem:mydmem|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_hvc1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|imem:myimem|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_pl81.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|vga_controller:vga_ins|ColorData:AccessColor|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_g5a1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|vga_controller:vga_ins|GridData:AccessGrid|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_1ao1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|vga_controller:vga_ins|lpm_divide:Div0" CBX_FILE_NAME="lpm_divide_lkm.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|vga_controller:vga_ins|lpm_divide:Mod1" CBX_FILE_NAME="lpm_divide_fcm.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|vga_controller:vga_ins|lpm_divide:Div1" CBX_FILE_NAME="lpm_divide_sim.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|vga_controller:vga_ins|lpm_divide:Mod0" CBX_FILE_NAME="lpm_divide_ocm.tdf"/>
+	</PROJECT>
+</LOG_ROOT>
