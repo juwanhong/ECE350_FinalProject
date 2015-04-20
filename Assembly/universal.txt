@@ -1,0 +1,74 @@
+.text
+main: addi $r1, $r1, 0
+setx 11
+setx 12
+addi $r31, $r0, 0
+addi $r31, $r31, -1
+add $r20, $r31, $r31
+add $r10, $r31, $r20
+sub $r11, $r10, $r20
+sw $r31, wow($r0)
+addi $r19, $r0, -9
+addi $r21, $r0, -5
+add $r0, $r0, $r0
+lw $r21, wow($r0)
+bne $r21, $r19, endgame
+setx 88
+bex good
+jal stupid
+stupid:add $r1, $r31, $r0
+jal j1
+j1: jal j2
+j2: jal j3
+j3: jal j4
+j4: jal j5
+j5: setx 9
+addi $r30, $r0, 9
+lx
+bne $r30, $r31, stupider
+jr $r1
+sw $r1, wow($r0)
+stupider: blt $r30, $r0, endgame
+worked: addi $r31, $r31, -1
+multFail: setx -15
+lx
+addi $r30, $r0, -15
+bne $r30, $r31, good
+endgame: halt
+good: addi $r1, $r0, 8
+addi $r2, $r1, 9
+add $r2, $r2, $r2
+add $r3, $r2, $r2
+sub $r3, $r3, $r1
+sra $r3, $r3, 2
+sll $r4, $r3, 2
+bne $r4, $r3, multFail
+j success
+multTest: add $r30, $r31, $r0
+addi $r20, $r0, 8000
+addi $r19, $r0, 8
+sll $r22, $r20, 3
+mul $r21, $r22, $r19
+bne $r21, $r22, multFail
+jr $r30
+divTest: add $r30, $r31, $r0
+addi $r1, $r0, 9
+addi $r2, $r0, 9754
+addi $r3, $r0, -998912
+div $r4, $r1, $r0
+div $r5, $r2, $r1
+div $r6, $r5, $r5
+div $r6, $r3, $r2
+div $r6, $r6, $r3
+j multTest
+success: setx 99
+lx
+addi $r31, $r31, 8
+halt
+.data
+wow: .word 0x0000B504
+mystring: .string ASDASDASDASDASDASD
+var: .char Z
+label: .char A
+heapsize: .word 0x00000000
+myheap: .word 0x00000000
