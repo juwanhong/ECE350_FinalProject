@@ -1,0 +1,66 @@
+--------------------------------------------------------------------------------------
+Timing Analyzer Summary
+--------------------------------------------------------------------------------------
+
+Type           : Worst-case tsu
+Slack          : N/A
+Required Time  : None
+Actual Time    : 9.291 ns
+From           : resetn
+To             : PS2_Interface:myps2|last_data_received[4]
+From Clock     : --
+To Clock       : inclock
+Failed Paths   : 0
+
+Type           : Worst-case tco
+Slack          : N/A
+Required Time  : None
+Actual Time    : 12.799 ns
+From           : processor:myprocessor|dmem:mydmem|altsyncram:altsyncram_component|altsyncram_vqc1:auto_generated|ram_block1a26~porta_address_reg11
+To             : debug_word[26]
+From Clock     : inclock
+To Clock       : --
+Failed Paths   : 0
+
+Type           : Worst-case th
+Slack          : N/A
+Required Time  : None
+Actual Time    : -7.047 ns
+From           : ps2_data
+To             : PS2_Interface:myps2|PS2_Controller:PS2|ps2_data_reg
+From Clock     : --
+To Clock       : inclock
+Failed Paths   : 0
+
+Type           : Clock Setup: 'pll:div|altpll:altpll_component|_clk0'
+Slack          : 17.219 ns
+Required Time  : 20.00 MHz ( period = 50.000 ns )
+Actual Time    : 64.26 MHz ( period = 15.562 ns )
+From           : processor:myprocessor|register32B:program_counter|DFFx:loop1[3].a_dff|q
+To             : processor:myprocessor|imem:myimem|altsyncram:altsyncram_component|altsyncram_7h81:auto_generated|ram_block1a17~porta_address_reg7
+From Clock     : pll:div|altpll:altpll_component|_clk0
+To Clock       : pll:div|altpll:altpll_component|_clk0
+Failed Paths   : 0
+
+Type           : Clock Hold: 'pll:div|altpll:altpll_component|_clk0'
+Slack          : 0.391 ns
+Required Time  : 20.00 MHz ( period = 50.000 ns )
+Actual Time    : N/A
+From           : lcd:mylcd|lcd_en
+To             : lcd:mylcd|lcd_en
+From Clock     : pll:div|altpll:altpll_component|_clk0
+To Clock       : pll:div|altpll:altpll_component|_clk0
+Failed Paths   : 0
+
+Type           : Total number of failed paths
+Slack          : 
+Required Time  : 
+Actual Time    : 
+From           : 
+To             : 
+From Clock     : 
+To Clock       : 
+Failed Paths   : 0
+
+--------------------------------------------------------------------------------------
+

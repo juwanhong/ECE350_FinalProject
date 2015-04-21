@@ -1,0 +1,294 @@
+module Control(instr_D, DSignals,XSignals,MSignals, WSignals, RegNums, oneH);
+	input [31:0] instr_D;
+	output [7:0] DSignals;
+	output [7:0] XSignals;
+	output [7:0] MSignals;
+	output [7:0] WSignals;
+	output [14:0] RegNums;
+	output [31:0] oneH;
+
+wire [4:0] opcode, RD, RS, RT;
+
+assign DSignals[0] = oneH[21]; // write enable status
+assign XSignals[0] = oneH[7]; // Store word
+assign XSignals[1] = oneH[3];
+//assign XSignals[1] = oneH[7];
+assign MSignals[0] = oneH[7];
+assign WSignals[0] = oneH[0]|oneH[5]|oneH[3]|oneH[8];//write enable regfile
+decoder5B opCodeDec(opcode, oneH);
+wire RS1rd, RS1rs, RS1no;
+assign RS1rd = oneH[2]|oneH[4]|oneH[6]|oneH[7]; // bne=2, blt=6, jr=4, sw=7
+assign RS1rs = oneH[0]|oneH[5]|oneH[7]|oneH[8]; // ALU=0,addi=5, lw=8,sw=7
+assign RS1no = oneH[1]|oneH[3]|oneH[21]|oneH[22]; // j=1, jal=3, setx=21, bex=22
+
+wire RS2rs, RS2rt, RS2no;
+assign RS2rs = oneH[2]|oneH[6]|oneH[7]; // bne=2, blt=6, sw=7
+assign RS2rt = oneH[0]; // ALU=0
+assign RS2no = oneH[1]|oneH[3]|oneH[21]|oneH[22]|oneH[4]; // j=1, jal=3, setx=21, bex=22, jr=4
+
+wire WRrd, WRr31, WRr00;
+assign WRrd = oneH[0]|oneH[5]|oneH[8]; // bne=2, blt=6, sw=7
+assign WRr31 = oneH[3]; // ALU=0
+assign WRr00 = oneH[1]|oneH[4]|oneH[21]|oneH[22]|oneH[7]; // j=1, jal=3, setx=21, bex=22, jr=4
+
+genvar i;
+generate
+	for (i = 0; i < 5; i = i + 1) begin: loopx
+		TRI RS1_0(.in(RD[i]), .out(RegNums[i]), .oe(RS1rd));
+		TRI RS1_1(.in(RS[i]), .out(RegNums[i]), .oe(RS1rs));
+		TRI RS1_2(.in(1'b0), .out(RegNums[i]), .oe(RS1no));
+
+		TRI RS2_0(.in(RS[i]), .out(RegNums[i+5]), .oe(RS2rs));
+		TRI RS2_1(.in(RT[i]), .out(RegNums[i+5]), .oe(RS2rt));
+		TRI RS2_2(.in(1'b0), .out(RegNums[i+5]), .oe(RS2no));
+		
+		TRI WR_0(.in(RD[i]), .out(RegNums[i+10]), .oe(WRrd));
+		TRI WR_1(.in(1'b1), .out(RegNums[i+10]), .oe(WRr31));
+		TRI WR_2(.in(1'b0), .out(RegNums[i+10]), .oe(WRr00));
+		
+		assign opcode[i] = instr_D[i+27];
+		assign RD[i] = instr_D[i+22];
+		assign RS[i] = instr_D[i+17];
+		assign RT[i] = instr_D[i+12];
+	end
+endgenerate
+
+endmodule
+
+module StallBypassControl(D, X, M, W, branchTaken,RegNums_D,RegNums_X,RegNums_M,RegNums_W, 
+stall, nop, bypass, clock, busy_stage, bp_reqX, exc_piped);
+	input [31:0] D;
+	input [31:0] X;
+	input [31:0] M;
+	input [31:0] W;
+	input branchTaken; // for XX_val, '1' = IS NOP
+	input clock;
+	input [14:0] RegNums_D;
+	input [14:0] RegNums_X;
+	input [14:0] RegNums_M;
+	input [14:0] RegNums_W;
+	input [16:0] busy_stage, bp_reqX, exc_piped;
+	output [11:0] bypass;
+	output [7:0] stall; // default = 1
+	output [7:0] nop; //default = 0
+	
+	wire [31:0] Dhot;
+	wire [31:0] Xhot;
+	wire [31:0] Mhot;
+	wire [31:0] Whot;
+	wire [4:0] D_op;
+	wire [4:0] X_op;
+	wire [4:0] M_op;
+	wire [4:0] W_op;
+	decoder5B dec00(.Enc(D_op),.out(Dhot));	
+	decoder5B dec01(.Enc(X_op),.out(Xhot));	
+	decoder5B dec02(.Enc(M_op),.out(Mhot));	
+	decoder5B dec03(.Enc(W_op),.out(Whot));
+
+	wire [4:0] WRDx;
+	wire [4:0] RS1x;
+	wire [4:0] RS2x;
+	wire [4:0] WRDm;
+	wire [4:0] WRDw;
+	wire [4:0] RS1d;
+	wire [4:0] RS2d;
+	wire [4:0] WRDd;
+	genvar i;
+	generate
+	for (i = 0; i < 5; i = i + 1)begin: loop1
+	assign RS1x[i]=RegNums_X[i];
+	assign RS2x[i]=RegNums_X[i+5];
+	assign WRDx[i]=RegNums_X[i+10];
+	
+	
+	assign RS1d[i]=RegNums_D[i];
+	assign RS2d[i]=RegNums_D[i+5];
+	assign WRDd[i]=RegNums_D[i+10];
+	
+	
+	assign WRDm[i]=RegNums_M[i+10];
+	assign WRDw[i]=RegNums_W[i+10];
+		
+	assign D_op[i] = D[i+27];
+	assign X_op[i] = X[i+27];
+	assign M_op[i] = M[i+27];
+	assign W_op[i] = W[i+27];
+
+	end
+	wire [15:0] multdiv_bpx;
+	for (i = 0; i < 16; i = i + 1)begin: multPipe
+		assign multdiv_bpx[i] = bp_reqX[i];
+	end
+	endgenerate
+	
+	
+	/////////////Bypass Logic
+	/////////Bypass = 0 means no bypass
+	
+	//////Bypass to Branch Control in D:
+	////Input A:
+	//from W
+	assign bypass[0] = (|RS1d)&((RS1d[4]^WRDw[4])&(RS1d[3]^WRDw[3])
+				&(RS1d[2]^WRDw[2])&(RS1d[1]^WRDw[1])&(RS1d[0]^WRDw[0]))
+				&~bypass[2]&~bypass[1];
+	//from M
+	assign bypass[1] = (|RS1d)&((RS1d[4]^WRDm[4])&(RS1d[3]^WRDm[3])
+				&(RS1d[2]^WRDm[2])&(RS1d[1]^WRDm[1])&(RS1d[0]^WRDm[0]))
+				&~bypass[2];
+	//from X
+	assign bypass[2] = (|RS1d)&((RS1d[4]^WRDx[4])&(RS1d[3]^WRDx[3])
+				&(RS1d[2]^WRDx[2])&(RS1d[1]^WRDx[1])&(RS1d[0]^WRDx[0]));
+	
+	////Input B:
+	//from W
+	assign bypass[3] = (|RS2d)&((RS2d[4]^WRDw[4])&(RS2d[3]^WRDw[3])
+				&(RS2d[2]^WRDw[2])&(RS2d[1]^WRDw[1])&(RS2d[0]^WRDw[0]))
+				&~bypass[5]&~bypass[4];
+
+	//from M
+	assign bypass[4] =  (|RS2d)&((RS2d[4]^WRDm[4])&(RS2d[3]^WRDm[3])
+				&(RS2d[2]^WRDm[2])&(RS2d[1]^WRDm[1])&(RS2d[0]^WRDm[0]))
+				&~bypass[4];
+
+	//from X
+	assign bypass[5] =  (|RS2d)&((RS2d[4]^WRDx[4])&(RS2d[3]^WRDx[3])
+				&(RS2d[2]^WRDx[2])&(RS2d[1]^WRDx[1])&(RS2d[0]^WRDx[0]));
+	
+	//////Bypass to ALU inputs in X:
+	////Input A:
+	//from W
+	assign bypass[6] =  (|RS1x)&((RS1x[4]^WRDw[4])&(RS1x[3]^WRDw[3])
+				&(RS1x[2]^WRDw[2])&(RS1x[1]^WRDw[1])&(RS1x[0]^WRDw[0]))
+				&(~bypass[7]);
+	
+	//from M
+	assign bypass[7] =  (|RS1x)&((RS1x[4]^WRDm[4])&(RS1x[3]^WRDm[3])
+				&(RS1x[2]^WRDm[2])&(RS1x[1]^WRDm[1])&(RS1x[0]^WRDm[0]));
+	
+	////Input B:
+	//from W
+	assign bypass[8] =  (|RS2x)&((RS2x[4]^WRDw[4])&(RS2x[3]^WRDw[3])
+				&(RS2x[2]^WRDw[2])&(RS2x[1]^WRDw[1])&(RS2x[0]^WRDw[0]))
+				&~bypass[9];
+	
+	//from M
+	assign bypass[9] =  (|RS2x)&((RS2x[4]^WRDm[4])&(RS2x[3]^WRDm[3])
+				&(RS2x[2]^WRDm[2])&(RS2x[1]^WRDm[1])&(RS2x[0]^WRDm[0]));
+	
+	//////Bypass to Memory_data_input in M:
+	//from W
+	assign bypass[10] = (|WRDw)&((WRDw[4]^WRDm[4])&(WRDw[3]^WRDm[3])
+				&(WRDw[2]^WRDm[2])&(WRDw[1]^WRDm[1])&(WRDw[0]^WRDm[0]));
+
+	
+	//lw case
+	//hold prevents a latch from changing
+	wire loadConflict;
+	wire holdPC;
+	wire [2:0] LC;
+	fiveBitEquals FLC1(.A(rtD), .B(rdX), .eq(LC[0]));
+	fiveBitEquals FLC2(.A(rsD), .B(rdX), .eq(LC[1]));
+	fiveBitEquals FLC3(.A(rdD), .B(rdX), .eq(LC[2]));
+
+	assign loadConflict = (~Dhot[7])&Xhot[8]&(LC[0]|LC[1]|LC[2]);
+	//if loadConflict = 1, a stall IS required
+	
+	//when to stall:
+	//case 1. MUL/DIV in P15-16 AND
+	// 			 a. if MW!=NOP, hold MW
+	// 			 b. if XM!=NOP, hold XM
+	//           c. if DX!=NOP, hold DX
+	wire MW_hold;
+	assign MW_hold = busy_stage[16]&bp_reqX[16];
+	//case 2. MUL/DIV in P0P1->P14P15 AND DX needs data AND it's not from $r0
+	//           a. hold (a) iMem, (b) PC, (c) FD, (d) DX
+	wire data_req;
+	assign data_req = (|multdiv_bpx);
+	//case 3. MUL/DIV in P0-16 (RD) == DX (RD)
+	
+	//case 4. DX = bex and there are unresolved mul.div
+	wire wait_exc;
+	assign wait_exc = exc_piped&(Xhot[22]);
+
+	wire canGoThrough; //instruction in X can move through
+	wire isMultiCyc_X;// noStrucHaz;
+	assign isMultiCyc_X = (~X[6])&(~X[5])&X[4]&X[3]&Xhot[0];
+	//assign noStrucHaz = ~(mul_stage[15]|div_stage[15]);
+	
+
+	//assign canGoThrough = noConf_X&(isMultiCyc_X|noStrucHaz);
+	
+	// 1'b1 = "let through", do not hold and do continue as normal
+	assign stall[0] = (~loadConflict)&(stall[1]);//|(~hold[0]); // PC
+	assign stall[1] = (~loadConflict)&(stall[2]);//|(~hold[1]); // F.D
+	assign stall[2] = (~stall[3])|(~data_req)&(~wait_exc)&stall[3]; // D.X
+	assign stall[3] = (~stall[4])|stall[4]; // X.M
+	assign stall[4] = MW_hold; // M.W
+	//assign hold[4] = holdPC;
+	//assign hold[5] = (~branchTaken) & (~loadConflict);
+
+    //XM_val, MW_val, DX_val=1 means DX_val=NOP
+	
+	//nop "neuters" an instruction already in the pipe
+	assign nop[0] = 1'b0; // PC
+	assign nop[1] = branchTaken;// F.D
+	assign nop[2] = loadConflict;// D.X
+	assign nop[3] = 1'b0; // X.M
+	assign nop[4] = 1'b0; // M.W
+	assign nop[5] = 1'b0;
+endmodule
+
+module fiveBitEquals(A, B, eq);
+	input [4:0] A;
+	input [4:0] B;
+	output eq;
+	wire isZero, areDiff;
+	assign isZero = ~(A[4]|A[3]|A[2]|A[1]|A[0]);
+	assign areDiff = (A[4]^B[4])|(A[3]^B[3])|(A[2]^B[2])|(A[1]^B[1])|(A[0]^B[0]);
+	assign eq= (~areDiff)&(~isZero);
+endmodule
+
+module decoder5B (Enc, out);
+	input [4:0] Enc;
+	output [31:0] out;
+	wire [4:0] EncN;
+	
+	not n1(EncN[0], Enc[0]);
+	not n2(EncN[1], Enc[1]);
+	not n3(EncN[2], Enc[2]);
+	not n4(EncN[3], Enc[3]);
+	not n5(EncN[4], Enc[4]);
+	
+	and and00(out[0], EncN[4], EncN[3], EncN[2], EncN[1], EncN[0]);
+	and and01(out[1], EncN[4], EncN[3], EncN[2], EncN[1], Enc[0]);
+	and and02(out[2], EncN[4], EncN[3], EncN[2], Enc[1], EncN[0]);
+	and and03(out[3], EncN[4], EncN[3], EncN[2], Enc[1], Enc[0]);
+	and and04(out[4], EncN[4], EncN[3], Enc[2], EncN[1], EncN[0]);
+	and and05(out[5], EncN[4], EncN[3], Enc[2], EncN[1], Enc[0]);
+	and and06(out[6], EncN[4], EncN[3], Enc[2], Enc[1], EncN[0]);
+	and and07(out[7], EncN[4], EncN[3], Enc[2], Enc[1], Enc[0]);
+	and and08(out[8], EncN[4], Enc[3], EncN[2], EncN[1], EncN[0]);
+	and and09(out[9], EncN[4], Enc[3], EncN[2], EncN[1], Enc[0]);
+	and and10(out[10], EncN[4], Enc[3], EncN[2], Enc[1], EncN[0]);
+	and and11(out[11], EncN[4], Enc[3], EncN[2], Enc[1], Enc[0]);
+	and and12(out[12], EncN[4], Enc[3], Enc[2], EncN[1], EncN[0]);
+	and and13(out[13], EncN[4], Enc[3], Enc[2], EncN[1], Enc[0]);
+	and and14(out[14], EncN[4], Enc[3], Enc[2], Enc[1], EncN[0]);
+	and and15(out[15], EncN[4], Enc[3], Enc[2], Enc[1], Enc[0]);
+	and and16(out[16], Enc[4], EncN[3], EncN[2], EncN[1], EncN[0]);
+	and and17(out[17], Enc[4], EncN[3], EncN[2], EncN[1], Enc[0]);
+	and and18(out[18], Enc[4], EncN[3], EncN[2], Enc[1], EncN[0]);
+	and and19(out[19], Enc[4], EncN[3], EncN[2], Enc[1], Enc[0]);
+	and and20(out[20], Enc[4], EncN[3], Enc[2], EncN[1], EncN[0]);
+	and and21(out[21], Enc[4], EncN[3], Enc[2], EncN[1], Enc[0]);
+	and and22(out[22], Enc[4], EncN[3], Enc[2], Enc[1], EncN[0]);
+	and and23(out[23], Enc[4], EncN[3], Enc[2], Enc[1], Enc[0]);
+	and and24(out[24], Enc[4], Enc[3], EncN[2], EncN[1], EncN[0]);
+	and and25(out[25], Enc[4], Enc[3], EncN[2], EncN[1], Enc[0]);
+	and and26(out[26], Enc[4], Enc[3], EncN[2], Enc[1], EncN[0]);
+	and and27(out[27], Enc[4], Enc[3], EncN[2], Enc[1], Enc[0]);
+	and and28(out[28], Enc[4], Enc[3], Enc[2], EncN[1], EncN[0]);
+	and and29(out[29], Enc[4], Enc[3], Enc[2], EncN[1], Enc[0]);
+	and and30(out[30], Enc[4], Enc[3], Enc[2], Enc[1], EncN[0]);
+	and and31(out[31], Enc[4], Enc[3], Enc[2], Enc[1], Enc[0]);
+endmodule
