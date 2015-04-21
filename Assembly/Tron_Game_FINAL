@@ -40,7 +40,7 @@ nop
 nop
 nop
 nop
-addi $r31, $r31, -1 ; lx
+nop
 addi $r21, $r0, 2
 nop
 nop

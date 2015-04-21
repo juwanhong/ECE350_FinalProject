@@ -1,0 +1,61 @@
+--lpm_mux CBX_DECLARE_ALL_CONNECTED_PORTS="OFF" DEVICE_FAMILY="Cyclone IV E" LPM_SIZE=10 LPM_WIDTH=1 LPM_WIDTHS=4 data result sel
+--VERSION_BEGIN 9.1SP2 cbx_lpm_mux 2010:03:24:20:43:43:SJ cbx_mgl 2010:03:24:21:01:05:SJ  VERSION_END
+
+
+-- Copyright (C) 1991-2010 Altera Corporation
+--  Your use of Altera Corporation's design tools, logic functions 
+--  and other software and tools, and its AMPP partner logic 
+--  functions, and any output files from any of the foregoing 
+--  (including device programming or simulation files), and any 
+--  associated documentation or information are expressly subject 
+--  to the terms and conditions of the Altera Program License 
+--  Subscription Agreement, Altera MegaCore Function License 
+--  Agreement, or other applicable license agreement, including, 
+--  without limitation, that your use is for the sole purpose of 
+--  programming logic devices manufactured by Altera and sold by 
+--  Altera or its authorized distributors.  Please refer to the 
+--  applicable agreement for further details.
+
+
+
+--synthesis_resources = lut 7 
+SUBDESIGN mux_eob
+( 
+	data[9..0]	:	input;
+	result[0..0]	:	output;
+	sel[3..0]	:	input;
+) 
+VARIABLE 
+	muxlut_data0w[9..0]	: WIRE;
+	muxlut_result0w	: WIRE;
+	muxlut_select0w[3..0]	: WIRE;
+	result_node[0..0]	: WIRE;
+	sel_ffs_wire[3..0]	: WIRE;
+	sel_node[3..0]	: WIRE;
+	w344w[3..0]	: WIRE;
+	w346w[1..0]	: WIRE;
+	w369w[3..0]	: WIRE;
+	w371w[1..0]	: WIRE;
+	w392w[1..0]	: WIRE;
+	w394w[0..0]	: WIRE;
+	w405w[1..0]	: WIRE;
+	w_mux_outputs342w[2..0]	: WIRE;
+
+BEGIN 
+	muxlut_data0w[] = ( data[9..0]);
+	muxlut_result0w = (((! w405w[1..1]) # ((! w405w[0..0]) & w_mux_outputs342w[2..2])) & ((w405w[1..1] # (w405w[0..0] & w_mux_outputs342w[1..1])) # ((! w405w[0..0]) & w_mux_outputs342w[0..0])));
+	muxlut_select0w[] = sel_node[];
+	result[] = result_node[];
+	result_node[] = ( muxlut_result0w);
+	sel_ffs_wire[] = ( sel[3..0]);
+	sel_node[] = ( sel_ffs_wire[3..2], sel[1..0]);
+	w344w[3..0] = muxlut_data0w[3..0];
+	w346w[1..0] = muxlut_select0w[1..0];
+	w369w[3..0] = muxlut_data0w[7..4];
+	w371w[1..0] = muxlut_select0w[1..0];
+	w392w[1..0] = muxlut_data0w[9..8];
+	w394w[0..0] = muxlut_select0w[0..0];
+	w405w[1..0] = muxlut_select0w[3..2];
+	w_mux_outputs342w[] = ( ((w392w[0..0] & (! w394w[0..0])) # (w392w[1..1] & w394w[0..0])), ((((! w371w[1..1]) # (w371w[0..0] & w369w[3..3])) # ((! w371w[0..0]) & w369w[2..2])) & ((w371w[1..1] # (w371w[0..0] & w369w[1..1])) # ((! w371w[0..0]) & w369w[0..0]))), ((((! w346w[1..1]) # (w346w[0..0] & w344w[3..3])) # ((! w346w[0..0]) & w344w[2..2])) & ((w346w[1..1] # (w346w[0..0] & w344w[1..1])) # ((! w346w[0..0]) & w344w[0..0]))));
+END;
+--VALID FILE

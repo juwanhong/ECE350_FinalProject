@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="skeleton">
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|VGA_Audio_PLL:p1|altpll:altpll_component" CBX_FILE_NAME="altpll_55j2.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|DFFx:mdPipe[1].instrStore[20].P_contr|altshift_taps:q_rtl_0" CBX_FILE_NAME="shift_taps_i7m.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|vga_controller:vga_ins|GridData:AccessGrid|alt3pram:alt3pram_component|altdpram:altdpram_component1" CBX_FILE_NAME="dpram_82n1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|imem:myimem|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_gl81.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|vga_controller:vga_ins|GridData:AccessGrid|alt3pram:alt3pram_component|altdpram:altdpram_component2" CBX_FILE_NAME="dpram_82n1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|vga_controller:vga_ins|lpm_divide:Div0" CBX_FILE_NAME="lpm_divide_pkm.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|vga_controller:vga_ins|GridData:AccessGrid|alt3pram:alt3pram_component|altdpram:altdpram_component1|altsyncram:ram_block" CBX_FILE_NAME="altsyncram_n5s1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|vga_controller:vga_ins|lpm_divide:Div1" CBX_FILE_NAME="lpm_divide_0jm.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|vga_controller:vga_ins|lpm_divide:Mod0" CBX_FILE_NAME="lpm_divide_scm.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|Grid:myGrid|memoryGrid:memGridCPU|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_86u1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|processor:myprocessor|dmem:mydmem|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_8vc1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|vga_controller:vga_ins|ColorData:AccessColor|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_75a1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|vga_controller:vga_ins|GridData:AccessGrid|alt3pram:alt3pram_component|altdpram:altdpram_component2|altsyncram:ram_block" CBX_FILE_NAME="altsyncram_n5s1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|skeleton|vga_controller:vga_ins|lpm_divide:Mod1" CBX_FILE_NAME="lpm_divide_jcm.tdf"/>
+	</PROJECT>
+</LOG_ROOT>
